@@ -14,6 +14,12 @@ class Gainput(ConanFile):
 
     def _configure_cmake(self):
         cmake = CMake(self)
+        cmake.definitions["GAINPUT_ENABLE_ALL_GESTURES"] = False
+        cmake.definitions["GAINPUT_ENABLE_RECORDER"] = False
+        cmake.definitions["GAINPUT_DEV"] = False
+        cmake.definitions["GAINPUT_LIB_BUILD"] = True
+        cmake.definitions["GAINPUT_BUILD_SHARED"] = True
+        cmake.definitions["GAINPUT_DEBUG"] = False
         cmake.configure()
         return cmake
 
@@ -30,4 +36,4 @@ class Gainput(ConanFile):
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["gainput", "gainputstatic"]
+        self.cpp_info.libs = ["gainputstatic-d"] if self.settings.build_type == 'Debug' else ["gainputstatic"]
